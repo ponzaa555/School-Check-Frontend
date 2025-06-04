@@ -1,3 +1,5 @@
+import ManageStudnetDialogContent from "../manageStudnetDialogContent";
+import MyDialog from "../myDialog";
 import ExportPdf from "./exportPdf";
 import ManageNameButton from "./manageNameButton";
 import PrintDoc from "./printDoc";
@@ -17,7 +19,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                 </div>
                 {/* button */}
                 <div className=" flex space-x-2">
-                    <ManageNameButton/>
+                    <MyDialog trigger={<ManageNameButton/>} children={<ManageStudnetDialogContent/>} halfScreen = {true}/>
                     <ExportPdf/>
                     <PrintDoc/>
                 </div>

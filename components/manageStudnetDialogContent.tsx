@@ -1,0 +1,107 @@
+"use client"
+import { AllClass, AllClassKeys, DefultStudent, StudentInClass } from '@/schema/class';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuCheckboxItemProps, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import React, { useEffect, useState } from 'react';
+import ManageStudentDropdown from './Dropdown/manageStudentDropdown';
+import ManageStudentRoomDropdown from './Dropdown/manageStudentRoomDropdown';
+import { StudentInfo } from '@/schema/user';
+import MyDialog from './myDialog';
+import UpdateUserDialog from './updateUserDialog';
+
+
+
+type Checked = DropdownMenuCheckboxItemProps["checked"]
+
+const ManageStudnetDialogContent = () => {
+    const [selectedClass, setSelectedClass] = useState<string>("ประถม1");
+    const [selectedIndex, setSelectedIndex] = useState<number>(0);
+    const [rooms , setRooms] = useState<string[]>(AllClass[selectedClass]);
+    const [classId , setClassId] = useState<string>(AllClass[selectedClass][selectedIndex]);
+    const [students, setStudents] = useState<StudentInfo[]>([]);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const fetchStudent = () => {
+        console.log("Fetching students for class ID: ", classId);
+    }
+
+    useEffect(() => {
+        console.log("Class ID: ", classId);
+        setStudents(StudentInClass[classId] || DefultStudent);
+    } , [classId]);
+
+    useEffect(() => {
+        setStudents([]);
+    } , [selectedClass])
+    return (
+        <div className=' bg-white px-3 w-full space-y-3 '>
+            <h1 className=' text-xl font-semibold'>จัดการรายชื่อนักเรียน </h1>
+            {/* เลือกระดับชั้น */}
+            <div className=' w-full'>
+                <p>เลือกระดับชั้น</p>
+                <ManageStudentDropdown 
+                listobject={AllClassKeys} 
+                setSelectedClass={setSelectedClass} 
+                selectedClass={selectedClass} 
+                setRoom={setRooms}
+                />
+            </div>
+            {/* เลือกห้องเรียน */}
+            <div className=' w-full'>
+                <p>เลือกห้องเรียน</p>
+                <ManageStudentRoomDropdown 
+                    listobject={rooms} 
+                    selectedRoom={selectedIndex} 
+                    setSelectedRoom={setSelectedIndex} 
+                    className={selectedClass}
+                    setClassId={setClassId}/>
+            </div>
+            {/* รายชื่อนักเรียน */}
+            <div className=' w-full space-y-3'>
+                <div className=' flex items-center justify-between'>
+                    <p>รายชื่อนักเรียน</p>
+                    <button className=' px-3 py-1 bg-blue-400 text-white rounded-md text-sm cursor-pointer hover:bg-blue-600'>เพิ่มนักเรียน</button>
+                </div>
+                <div className="overflow-hidden rounded-md shadow border border-gray-300 ">
+                    <table className="min-w-full divide-y divide-gray-200 ">
+                        <thead className="bg-gray-100">
+                        <tr>
+                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Number</th>
+                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Name</th>
+                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Manage</th>
+                        </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-100">
+                            {/* Replace this with map of real data */}
+                            {students.map((student, index) => (
+                            <tr key={index}>
+                                <td className="px-4 py-2 text-sm text-gray-800">{student.StudentNumber}</td>
+                                <td className="px-4 py-2 text-sm text-gray-800">{student.StudnetFirstName} {student.StudnetLastName}</td>
+                                <td className="px-4 py-2 space-x-2">
+                                <MyDialog 
+                                    trigger={<button className="px-2 py-1 text-xs bg-yellow-400 text-white rounded hover:bg-yellow-500">แก้ไข</button>}
+                                    halfScreen={false}
+                                    >
+                                         {(onClose) => (
+                                                <UpdateUserDialog
+                                                student={student}
+                                                fetchStudent={fetchStudent}
+                                                onClose={onClose}
+                                                />
+                                            )}
+                                </MyDialog>
+                                <button 
+                                className="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600"
+                                onClick={() => setOpenDialog(true)}
+                                >ลบ</button>
+                                </td>
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default ManageStudnetDialogContent;
