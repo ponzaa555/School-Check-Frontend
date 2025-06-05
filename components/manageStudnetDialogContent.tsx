@@ -7,6 +7,8 @@ import ManageStudentRoomDropdown from './Dropdown/manageStudentRoomDropdown';
 import { StudentInfo } from '@/schema/user';
 import MyDialog from './myDialog';
 import UpdateUserDialog from './updateUserDialog';
+import InsertStudentDialog from './InsertStudentDialog';
+import { FetchStudents } from '@/app/api/User';
 
 
 
@@ -21,8 +23,10 @@ const ManageStudnetDialogContent = () => {
     const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [deleteStudent, setDeleteStudent] = useState<StudentInfo[]>([]);
 
-    const fetchStudent = () => {
-        console.log("Fetching students for class ID: ", classId);
+    const fetchStudent = async(classId : string) => {
+        const newStudents = await FetchStudents(classId);
+        setStudents(newStudents);
+        console.log("Fetching students for class ID: ", newStudents);
     }
     const handleDeleteStudent = (index:number) => {
         setStudents((prev) => prev.filter((_, i) => i !== index));
@@ -36,12 +40,12 @@ const ManageStudnetDialogContent = () => {
         console.log("Undo delete student at index: ", index);
         setStudents((prev) => [...prev, deleteStudent[index]].sort((a, b) => a.StudentNumber - b.StudentNumber));
     }
-
-    useEffect(() => {
-        console.log("Class ID: ", classId);
-        setStudents(StudentInClass[classId] || DefultStudent);
-    } , [classId]);
-
+    const ChangeSelectNewClassRoom = async(classId :string , index : number) => {
+        console.log("Changed class ID to: ", classId);
+        setClassId(classId);
+        setSelectedIndex(index);
+        await fetchStudent(classId);
+    }
     useEffect(() => {
         setStudents([]);
     } , [selectedClass])
@@ -64,15 +68,25 @@ const ManageStudnetDialogContent = () => {
                 <ManageStudentRoomDropdown 
                     listobject={rooms} 
                     selectedRoom={selectedIndex} 
-                    setSelectedRoom={setSelectedIndex} 
                     className={selectedClass}
-                    setClassId={setClassId}/>
+                    changeSlectedRoom={ChangeSelectNewClassRoom}/>
             </div>
             {/* รายชื่อนักเรียน */}
             <div className=' w-full space-y-3'>
                 <div className=' flex items-center justify-between'>
                     <p>รายชื่อนักเรียน</p>
-                    <button className=' px-3 py-1 bg-blue-400 text-white rounded-md text-sm cursor-pointer hover:bg-blue-600'>เพิ่มนักเรียน</button>
+                    <MyDialog trigger={<button className=' px-3 py-1 bg-blue-400 text-white rounded-md text-sm cursor-pointer hover:bg-blue-600'>เพิ่มนักเรียน</button>}
+                    >
+                        {
+                            (onClose) => (
+                                <InsertStudentDialog
+                                onClose={onClose}
+                                classId={classId}
+                                fetchStudent={fetchStudent}/>
+                            )
+                        }
+                    </MyDialog>
+                    
                 </div>
                 <div className=" rounded-md shadow border border-gray-300 max-h-[200px] overflow-auto ">
                     <table className="min-w-full divide-y divide-gray-200 ">
@@ -99,6 +113,7 @@ const ManageStudnetDialogContent = () => {
                                                 student={student}
                                                 fetchStudent={fetchStudent}
                                                 onClose={onClose}
+                                                classId={classId}
                                                 />
                                             )}
                                 </MyDialog>

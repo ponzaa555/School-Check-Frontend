@@ -1,35 +1,39 @@
+import { AddStudent } from '@/app/api/User';
 import { StudentInfo } from '@/schema/user';
 import React from 'react';
 
-type UpdateUserDialogProps = {
-    classId : string;
-    fetchStudent : (classId : string) => void;
-    student : StudentInfo;
+type  InsertStudentDialogProps = {
     onClose : () => void;
+    classId : string;
+    fetchStudent: (classId : string) => void;
 }
-const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUserDialogProps) => {
+
+const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDialogProps) => {
     const [formData , setFormData] = React.useState({
-        studentNumber : student.StudentNumber,
-        firstName : student.StudnetFirstName,
-        lastName : student.StudnetLastName,
+        studentNumber : 0,
+        firstName : "",
+        lastName : "",
     })
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-    
         // Get values from form fields using FormData
         const formData = new FormData(e.currentTarget);
-        const idNumber = formData.get('idNumber');
-        const fullName = formData.get('firstName');
+        const studentNumber = formData.get('idNumber');
+        const firstName = formData.get('firstName');
         const lastName = formData.get('lastName');
-    
-        // Log the values
-        // console.log('เลขที่:', idNumber);
-        // console.log('ชื่อ-นามสกุล:', fullName + ' ' + lastName);
-        // Call API to update student information
-        //Add loading
-        fetchStudent(classId);
-        onClose();
-      };
+        // Call API to insert student information
+        const studentInfo : StudentInfo = {
+            StudentNumber: Number(studentNumber),
+            StudnetFirstName: firstName as string,
+            StudnetLastName: lastName as string,
+            StudentId: "",
+        }
+        const response = await AddStudent(studentInfo , classId);
+        console.log("Response from AddStudent API: ", response.studentId);
+        // Fetch students again after insertion
+        await fetchStudent(classId);
+        onClose(); // Close the dialog after submission
+    }
     return (
         <div className=' p-2' >
             <h1 className=' text-xl font-bold font-serif mb-5'>แก้ไขข้อมูลนักเรียน</h1>
@@ -104,4 +108,4 @@ const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUse
     );
 }
 
-export default UpdateUserDialog;
+export default InsertStudentDialog;

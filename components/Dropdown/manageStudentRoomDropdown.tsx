@@ -5,17 +5,15 @@ import { Check } from "lucide-react";
 type ManageStudentRoomDropdownProps = {
     className: string;
     selectedRoom: number;
-    setSelectedRoom: (preValue: number) => void;
     listobject: string[];
-    setClassId : (preValue: string) => void;
+    changeSlectedRoom: (clasId:string , index:number) => void;
 }
 
 const ManageStudentRoomDropdown = ({
-    selectedRoom , 
-    setSelectedRoom , 
+    selectedRoom ,  
     listobject , 
     className,
-    setClassId
+    changeSlectedRoom
 }:ManageStudentRoomDropdownProps) => {
     useEffect(() => {
         setInputValue("");
@@ -34,8 +32,7 @@ const ManageStudentRoomDropdown = ({
                 <DropdownMenuItem
                 key={index}
                 onSelect={() => {
-                    setSelectedRoom(index)
-                    setClassId(value);
+                    changeSlectedRoom(value, index) // Call the changeSlectedRoom function if provided
                     setInputValue(`${className}/${index+1}`) // Update input value when a room is selected
                     // Call Api for update student room
                 }}
