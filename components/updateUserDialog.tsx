@@ -1,4 +1,5 @@
-import { StudentInfo } from '@/schema/user';
+import { UpdateStudent } from '@/app/api/User';
+import { Student, StudentInfo } from '@/schema/user';
 import React from 'react';
 
 type UpdateUserDialogProps = {
@@ -13,19 +14,26 @@ const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUse
         firstName : student.StudnetFirstName,
         lastName : student.StudnetLastName,
     })
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     
         // Get values from form fields using FormData
         const formData = new FormData(e.currentTarget);
-        const idNumber = formData.get('idNumber');
-        const fullName = formData.get('firstName');
-        const lastName = formData.get('lastName');
-    
+        const idNumber = Number(formData.get('idNumber') || 0);
+        const firstName = formData.get('firstName') as string;
+        const lastName = formData.get('lastName') as string;
+        const studentApi:StudentInfo = {
+            StudentId:student.StudentId,
+            StudnetFirstName:firstName ,
+            StudnetLastName : lastName,
+            StudentNumber:idNumber
+        }
+        await UpdateStudent(studentApi);
         // Log the values
         // console.log('เลขที่:', idNumber);
         // console.log('ชื่อ-นามสกุล:', fullName + ' ' + lastName);
         // Call API to update student information
+
         //Add loading
         fetchStudent(classId);
         onClose();

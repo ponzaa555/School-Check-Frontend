@@ -8,7 +8,7 @@ import { StudentInfo } from '@/schema/user';
 import MyDialog from './myDialog';
 import UpdateUserDialog from './updateUserDialog';
 import InsertStudentDialog from './InsertStudentDialog';
-import { FetchStudents } from '@/app/api/User';
+import { FetchStudents, SetClassIdToNoClass } from '@/app/api/User';
 
 
 
@@ -45,6 +45,17 @@ const ManageStudnetDialogContent = () => {
         setClassId(classId);
         setSelectedIndex(index);
         await fetchStudent(classId);
+    }
+    const handleDeleteStudentApi = async() => {
+        // Call API to delete students
+        if(deleteStudent.length === 0) {
+            return;
+        }
+        const listStudentIds = deleteStudent.map(student => student.StudentId);
+        await SetClassIdToNoClass(listStudentIds);
+        // Fetch updated student list
+        await fetchStudent(classId);
+        setDeleteStudent([]);
     }
     useEffect(() => {
         setStudents([]);
@@ -167,6 +178,16 @@ const ManageStudnetDialogContent = () => {
                     </div>
                 )
             }
+            {/* บันทึก Delete นักเรียน */}
+            <div className=' flex justify-between'>
+                <div></div>
+                <button 
+                    className=' text-white text-sm font-bold bg-blue-500 hover:bg-blue-600 cursor-pointer px-3 py-2 rounded-md'
+                    onClick={() => handleDeleteStudentApi()}
+                    >
+                    บันทึก
+                </button>
+            </div>
         </div>
     );
 }
