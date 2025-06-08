@@ -1,24 +1,20 @@
-
-
-import { ClassList } from "@/schema/class";
-import { JSX, useEffect, useState } from "react";
-
+"use client"
 
 interface ClassLevelProps {
     AllClass : string[];
     AllRoom : string[];
     setSelectLevel : (preValue:string) => void;
     roomIndex : number;
-    setRoomIndex : (preValue:number) => void;
     selectClassLevel: string;
+    handleUpdateClassId : (classId : string , classIndex : number) => void;
 }
 const ClassLevel  = ({
     AllClass,
     AllRoom,
     setSelectLevel,
     roomIndex,
-    setRoomIndex,
-    selectClassLevel
+    selectClassLevel,
+    handleUpdateClassId
 }:ClassLevelProps) =>
 {
     /*
@@ -62,7 +58,7 @@ const ClassLevel  = ({
                     AllRoom?.map((value:string , index) => (
                         <div key={index} className={`items-center p-3 font-bold cursor-pointer
                          text-center m-2 rounded-md text-md ${ index === roomIndex ? " bg-blue-200 text-blue-600" : "bg-green-100 text-green-600 "}`}
-                         onClick={() => setRoomIndex(index) }>
+                         onClick={() =>  handleUpdateClassId(value,index)}>
                             <p>
                                 {selectClassLevel} / {index+1}
                             </p>

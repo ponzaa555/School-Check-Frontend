@@ -1,15 +1,17 @@
+import { BaseURL } from "@/schema/share";
 import { StudentInfo } from "@/schema/user";
 
-const url = "http://localhost:5274";
+const url = BaseURL;
 
 
 
 /*
 {
-  "studentId": "string",
-  "firstName": "string",
-  "lastName": "string",
-  "classId": "string"
+  "studentId": "14001",
+  "firstName": "last",
+  "lastName": "name",
+  "studentNumber": 22,
+  "classId": "4"
 }
 */
 export const AddStudent = async(student : StudentInfo , classId :string) => {
@@ -20,7 +22,8 @@ export const AddStudent = async(student : StudentInfo , classId :string) => {
             "Content-Type": "application/json",
           },
         body:JSON.stringify({
-                studentId: student.StudentNumber.toString(),
+                studentId: student.StudentId,
+                studentNumber : student.StudentNumber,
                 firstName: student.StudnetFirstName,
                 lastName: student.StudnetLastName,
                 classId: classId.toString()
@@ -60,7 +63,7 @@ export const FetchStudents = async(classId: string):Promise<StudentInfo[]> => {
         StudentId: student.studentId,
         StudnetFirstName: student.firstName,
         StudnetLastName: student.lastName,
-        StudentNumber: parseInt(student.studentId),
+        StudentNumber: student.studentNumber,
     }));
     return  students;
 }

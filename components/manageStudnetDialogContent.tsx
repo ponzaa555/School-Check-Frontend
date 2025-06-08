@@ -25,7 +25,7 @@ const ManageStudnetDialogContent = () => {
 
     const fetchStudent = async(classId : string) => {
         const newStudents = await FetchStudents(classId);
-        setStudents(newStudents);
+        setStudents(newStudents.sort((a,b) => a.StudentNumber-b.StudentNumber));
         console.log("Fetching students for class ID: ", newStudents);
     }
     const handleDeleteStudent = (index:number) => {
@@ -105,6 +105,7 @@ const ManageStudnetDialogContent = () => {
                         <tr>
                             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Number</th>
                             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Name</th>
+                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">StudentId</th>
                             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Manage</th>
                         </tr>
                         </thead>
@@ -114,6 +115,7 @@ const ManageStudnetDialogContent = () => {
                             <tr key={index}>
                                 <td className="px-4 py-2 text-sm text-gray-800">{student.StudentNumber}</td>
                                 <td className="px-4 py-2 text-sm text-gray-800">{student.StudnetFirstName} {student.StudnetLastName}</td>
+                                <td className="px-4 py-2 text-sm text-gray-800">{student.StudentId}</td>
                                 <td className="px-4 py-2 space-x-2">
                                 <MyDialog 
                                     trigger={<button className="px-2 py-1 text-xs bg-yellow-400 text-white rounded hover:bg-yellow-500">แก้ไข</button>}

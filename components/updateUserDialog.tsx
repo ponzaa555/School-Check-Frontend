@@ -19,7 +19,7 @@ const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUse
     
         // Get values from form fields using FormData
         const formData = new FormData(e.currentTarget);
-        const idNumber = Number(formData.get('idNumber') || 0);
+        const idNumber = Number(formData.get('studentNumber') || 0);
         const firstName = formData.get('firstName') as string;
         const lastName = formData.get('lastName') as string;
         const studentApi:StudentInfo = {
@@ -49,18 +49,15 @@ const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUse
                 <div>
                     <p>เลขที่</p>
                     <input
-                    value={formData.studentNumber}
+                    value={student.StudentId}
                     type="number"
                     name="idNumber"
-                    className="p-2 rounded-md w-full border border-gray-200 focus:border-blue-800 focus:outline-none focus:border-2"
-                    onChange={(e) => 
-                        setFormData((f) => ({...f, studentNumber : Number(e.target.value)}))
-                    }
-                    required
+                    className="p-2 rounded-md w-full bg-gray-200 border border-gray-200 focus:border-blue-800 focus:outline-none focus:border-2"
+                    disabled
                     />
                 </div>
                 <div className='flex space-x-2'>
-                    <div className=' w-1/2'>
+                    <div className=' w-2/5'>
                         <p>ชื่อ</p>
                         <input
                         type="text"
@@ -73,7 +70,7 @@ const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUse
                         required
                         />
                     </div>
-                    <div className='w-1/2'>
+                    <div className='w-2/5'>
                         <p>นามสกุล</p>
                         <input
                         type="text"
@@ -84,6 +81,19 @@ const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUse
                         onChange={(e) =>
                             setFormData((f) => ({ ...f, lastName: e.target.value }))
                           }
+                        />
+                    </div>
+                    <div className=' w-1/5'>
+                        <p>เลขที่</p>
+                        <input
+                        value={formData.studentNumber}
+                        type="number"
+                        name="studentNumber"
+                        className="p-2 rounded-md w-full border border-gray-200 focus:border-blue-800 focus:outline-none focus:border-2"
+                        onChange={(e) => 
+                            setFormData((f) => ({...f, studentNumber : Number(e.target.value)}))
+                        }
+                        required
                         />
                     </div>
                 </div>

@@ -2,14 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import StudentComponent from './studentComponent';
 import { AllStudent, AttendanceStatus, AttendInfo, Student } from '@/schema/user';
+import { FetchStudentAttendInfo } from '@/app/api/mainPage/studentCheck';
 
 type StudentCheckProps = {
     className : string;
-    selectDate : string;
     classId :string
+    listStudentAttend : Student[]
 }
-const StudentCheck = ({className , selectDate , classId}:StudentCheckProps) => {
-    const [allStudent,setAllStudent]  = useState<Student[]>(AllStudent)
+const StudentCheck = ({className , classId , listStudentAttend}:StudentCheckProps) => {
+    const [allStudent,setAllStudent]  = useState<Student[]>(listStudentAttend)
     const [changeStatus, setChangeStatus] = useState<Record<string , AttendInfo>>({});
 
     const UpdateStudentStatus =(index : number , status:AttendanceStatus , attendInfo : AttendInfo)=> {
@@ -57,11 +58,6 @@ const StudentCheck = ({className , selectDate , classId}:StudentCheckProps) => {
     const handleUpdateStatus = () => {
         console.log("All students updated to status: ", changeStatus);
     }
-    useEffect(() => {
-        // Fetch all student from database
-        // console.log("ClassId ", classId);
-        // console.log("Select Date ", selectDate);
-    },[className , selectDate])
     return (
         <div className='bg-white p-6 w-full rounded-md drop-shadow-[4px_4px_6px_rgba(0,0,0,0.1)]'>
             <div className=' flex justify-between items-center text-center'>
@@ -74,7 +70,8 @@ const StudentCheck = ({className , selectDate , classId}:StudentCheckProps) => {
                         onClick={() => UpdateAllStudentStatus("Leave")}>ขาดทั้งหมด</button>
                     <button className='bg-gray-500 py-1 px-3 font-bold rounded-md text-[15px]'
                         onClick={() => {
-                            setAllStudent(AllStudent); // Reset to original student list
+                            setAllStudent(listStudentAttend); // Reset to original student list
+                            setChangeStatus({});
                         }}>รีเซ็ต</button>
                 </div>
             </div>

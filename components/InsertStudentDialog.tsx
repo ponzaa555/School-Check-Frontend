@@ -10,6 +10,7 @@ type  InsertStudentDialogProps = {
 
 const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDialogProps) => {
     const [formData , setFormData] = React.useState({
+        studentId : "",
         studentNumber : 0,
         firstName : "",
         lastName : "",
@@ -18,15 +19,16 @@ const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDia
         e.preventDefault();
         // Get values from form fields using FormData
         const formData = new FormData(e.currentTarget);
-        const studentNumber = formData.get('idNumber');
+        const studentId = formData.get('idNumber');
         const firstName = formData.get('firstName');
         const lastName = formData.get('lastName');
+        const studentNumber = formData.get("StudentNumber")
         // Call API to insert student information
         const studentInfo : StudentInfo = {
             StudentNumber: Number(studentNumber),
             StudnetFirstName: firstName as string,
             StudnetLastName: lastName as string,
-            StudentId: "",
+            StudentId: studentId as string,
         }
         const response = await AddStudent(studentInfo , classId);
         console.log("Response from AddStudent API: ", response.studentId);
@@ -36,27 +38,33 @@ const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDia
     }
     return (
         <div className=' p-2' >
-            <h1 className=' text-xl font-bold font-serif mb-5'>แก้ไขข้อมูลนักเรียน</h1>
+            <h1 className=' text-xl font-bold font-serif mb-5'>เพิ่มรายชื่อนักเรียน</h1>
             {/* เลขที่ */}
             <form 
                 onSubmit={(e) => handleSubmit(e)}
                 className="space-y-5"
                 >
                 <div>
-                    <p>เลขที่</p>
+                    <p>เลขประจำตัวนักเรียน</p>
                     <input
-                    value={formData.studentNumber}
-                    type="number"
+                    type="text"
+                    inputMode="numeric"     // shows number pad on mobile
+                    pattern="\d{5}"
+                    value={formData.studentId}
                     name="idNumber"
                     className="p-2 rounded-md w-full border border-gray-200 focus:border-blue-800 focus:outline-none focus:border-2"
-                    onChange={(e) => 
-                        setFormData((f) => ({...f, studentNumber : Number(e.target.value)}))
+                    onChange={(e) => {
+                        const value = e.target.value
+                        if(/^\d*$/.test(value)){
+                            setFormData((f) => ({...f, studentId : value}))
+                        }
+                        }
                     }
                     required
                     />
                 </div>
                 <div className='flex space-x-2'>
-                    <div className=' w-1/2'>
+                    <div className=' w-2/5'>
                         <p>ชื่อ</p>
                         <input
                         type="text"
@@ -69,7 +77,7 @@ const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDia
                         required
                         />
                     </div>
-                    <div className='w-1/2'>
+                    <div className='w-2/5'>
                         <p>นามสกุล</p>
                         <input
                         type="text"
@@ -81,6 +89,19 @@ const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDia
                             setFormData((f) => ({ ...f, lastName: e.target.value }))
                           }
                         />
+                    </div>
+                    <div className=' w-1/5'>
+                        <p>เลขที่</p>
+                            <input
+                            type="number"
+                            name="StudentNumber"
+                            value={formData.studentNumber}
+                            className="p-2 rounded-md w-full border border-gray-200 focus:border-blue-800 focus:outline-none focus:border-2"
+                            required
+                            onChange={(e) => 
+                                setFormData((f) => ({...f,studentNumber: Number(e.target.value)}))
+                            }
+                            />
                     </div>
                 </div>
 
