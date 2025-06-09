@@ -20,10 +20,14 @@ const ManageStudnetDialogContent = () => {
     const [classId , setClassId] = useState<string>(AllClass[selectedClass][selectedIndex]);
     const [students, setStudents] = useState<StudentInfo[]>([]);
     const [deleteStudent, setDeleteStudent] = useState<StudentInfo[]>([]);
+    const [loading , setLoading] = useState<boolean>();
 
     const fetchStudent = async(classId : string) => {
+        setLoading(true)
+        setDeleteStudent([]);
         const newStudents = await FetchStudents(classId);
         setStudents(newStudents.sort((a,b) => a.StudentNumber-b.StudentNumber));
+        setLoading(false)
         // console.log("Fetching students for class ID: ", newStudents);
     }
     const handleDeleteStudent = (index:number) => {
@@ -80,6 +84,7 @@ const ManageStudnetDialogContent = () => {
                     className={selectedClass}
                     changeSlectedRoom={ChangeSelectNewClassRoom}/>
             </div>
+
             {/* รายชื่อนักเรียน */}
             <div className=' w-full space-y-3'>
                 <div className=' flex items-center justify-between'>
@@ -97,52 +102,58 @@ const ManageStudnetDialogContent = () => {
                     </MyDialog>
                     
                 </div>
-                <div className=" rounded-md shadow border border-gray-300 max-h-[200px] overflow-auto ">
-                    <table className="min-w-full divide-y divide-gray-200 ">
-                        <thead className="bg-gray-100">
-                        <tr>
-                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Number</th>
-                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Name</th>
-                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">StudentId</th>
-                            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Manage</th>
-                        </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-100">
-                            {/* Replace this with map of real data */}
-                            {students.map((student, index) => (
-                            <tr key={index}>
-                                <td className="px-4 py-2 text-sm text-gray-800">{student.StudentNumber}</td>
-                                <td className="px-4 py-2 text-sm text-gray-800">{student.StudnetFirstName} {student.StudnetLastName}</td>
-                                <td className="px-4 py-2 text-sm text-gray-800">{student.StudentId}</td>
-                                <td className="px-4 py-2 space-x-2">
-                                <MyDialog 
-                                    trigger={<button className="px-2 py-1 text-xs bg-yellow-400 text-white rounded hover:bg-yellow-500">แก้ไข</button>}
-                                    halfScreen={false}
-                                    >
-                                         {(onClose) => (
-                                                <UpdateUserDialog
-                                                student={student}
-                                                fetchStudent={fetchStudent}
-                                                onClose={onClose}
-                                                classId={classId}
-                                                />
-                                            )}
-                                </MyDialog>
-                                <button 
-                                    className="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600"
-                                    onClick={() => 
-                                            {
-                                                handleAddStudentToDeleteList(student)
-                                                handleDeleteStudent(index);
-                                            }
-                                        }
-                                >ลบ</button>
-                                </td>
+                {loading ? (
+                    <div className=' flex items-center justify-center w-full'>
+                        <p> Loading ...</p>
+                    </div>
+                ):(
+                    <div className=" rounded-md shadow border border-gray-300 max-h-[200px] overflow-auto ">
+                        <table className="min-w-full divide-y divide-gray-200 ">
+                            <thead className="bg-gray-100">
+                            <tr>
+                                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Number</th>
+                                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Student Name</th>
+                                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">StudentId</th>
+                                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Manage</th>
                             </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-100">
+                                {/* Replace this with map of real data */}
+                                {students.map((student, index) => (
+                                <tr key={index}>
+                                    <td className="px-4 py-2 text-sm text-gray-800">{student.StudentNumber}</td>
+                                    <td className="px-4 py-2 text-sm text-gray-800">{student.StudnetFirstName} {student.StudnetLastName}</td>
+                                    <td className="px-4 py-2 text-sm text-gray-800">{student.StudentId}</td>
+                                    <td className="px-4 py-2 space-x-2">
+                                    <MyDialog 
+                                        trigger={<button className="px-2 py-1 text-xs bg-yellow-400 text-white rounded hover:bg-yellow-500">แก้ไข</button>}
+                                        halfScreen={false}
+                                        >
+                                            {(onClose) => (
+                                                    <UpdateUserDialog
+                                                    student={student}
+                                                    fetchStudent={fetchStudent}
+                                                    onClose={onClose}
+                                                    classId={classId}
+                                                    />
+                                                )}
+                                    </MyDialog>
+                                    <button 
+                                        className="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600"
+                                        onClick={() => 
+                                                {
+                                                    handleAddStudentToDeleteList(student)
+                                                    handleDeleteStudent(index);
+                                                }
+                                            }
+                                    >ลบ</button>
+                                    </td>
+                                </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
             
             {/* ราชื่อนนักเรียนที่ลบ */}
