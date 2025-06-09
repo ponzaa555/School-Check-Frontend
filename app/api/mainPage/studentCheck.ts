@@ -1,5 +1,5 @@
 import { BaseURL } from "@/schema/share"
-import { Student } from "@/schema/user";
+import { AttendInfo, Student } from "@/schema/user";
 
 const url = BaseURL
 
@@ -40,4 +40,46 @@ export async function FetchStudentAttendInfo(classId : string) : Promise<Student
     })) 
     console.log("result :", result)
     return result
+}
+/*
+request body :
+{
+  "classId": "string",
+  "attendInfos": [
+    {
+      "studentId": "string",
+      "attendType": "string",
+      "note": "string",
+      "lastAttendId": "string"
+    }
+  ]
+}
+ */
+export async function PostStudentAttendInfo( classId : string , listAttendInfo : AttendInfo[] ) {
+    console.log(`PostStudentAttendInfo:{ classId : ${classId} , listAttendInfo : ${listAttendInfo}}`)
+    const mapListAttendInfoToApi = listAttendInfo.map((attendInfo) => (
+        {
+            studentId : attendInfo.StudentId,
+            attendType : attendInfo.AttendType,
+            note : attendInfo.Note,
+            lastAttendId : attendInfo.LastAttendId
+        }
+    ))
+    const body = JSON.stringify({
+        classId:classId,
+        attendInfos:mapListAttendInfoToApi
+    })
+    console.log({body})
+    // fetch api
+    const res = await fetch(`${url}/api/Class/CheckStudentInClass` , {
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json",
+        },
+        body:body
+    })
+    if(!res.ok){
+        throw new Error("Failed to post students info");
+    }
+    return
 }

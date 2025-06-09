@@ -3,18 +3,18 @@
 interface ClassLevelProps {
     AllClass : string[];
     AllRoom : string[];
-    setSelectLevel : (preValue:string) => void;
     roomIndex : number;
     selectClassLevel: string;
     handleUpdateClassId : (classId : string , classIndex : number) => void;
+    handleSetClassLevel : (classLeve : string) => void
 }
 const ClassLevel  = ({
     AllClass,
     AllRoom,
-    setSelectLevel,
     roomIndex,
     selectClassLevel,
-    handleUpdateClassId
+    handleUpdateClassId,
+    handleSetClassLevel
 }:ClassLevelProps) =>
 {
     /*
@@ -39,7 +39,7 @@ const ClassLevel  = ({
                     AllClass?.map((value:string , index) => (
                         <div key={index} className={`items-center p-3 font-bold cursor-pointer
                          text-center m-2 rounded-md text-md ${ value === selectClassLevel ? " bg-blue-200 text-blue-600" : "bg-green-100 text-green-600 "}`}
-                         onClick={() => setSelectLevel(value)}>
+                         onClick={() => handleSetClassLevel(value)}>
                             <p>
                                 {value}
                             </p>

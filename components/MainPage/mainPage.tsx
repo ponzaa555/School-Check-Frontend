@@ -11,12 +11,12 @@ import { FetchStudentAttendInfo } from '@/app/api/mainPage/studentCheck';
 
 const MainPage = () => {
     const [selectClassLevel , setSelectClassLevel] = useState<string>("ประถม1");
-    const [roomIndex , setRoomIndex] = useState<number>(0);
+    const [roomIndex , setRoomIndex] = useState<number>(-1);
     const [roomInClass , setRoomInClass] = useState<string[]>(AllClass[selectClassLevel]);
     const today = new Date().toISOString().split('T')[0]; // format: YYYY-MM-DD
     const [date, setDate] = useState<string>(today);
     const [classId , setClassId] = useState<string>(AllClass[selectClassLevel][roomIndex]);
-
+    const [loadingCheckForm , setLoadingCheckForm] = useState<boolean>(false)
 
     // studentInfo
     const [allStudent,setAllStudent]  = useState<Student[]>([])
@@ -27,8 +27,18 @@ const MainPage = () => {
     }
     // select classId -> call handleFetchStudent
     const handleUpdateClassId = async(classId : string , classIndex : number) => {
+        setClassId(classId)
         setRoomIndex(classIndex);
+        setLoadingCheckForm(true)
         await handleFetchStudent(classId);
+        setLoadingCheckForm(false)
+    }
+    // const handle set classLevel -> set room in class
+    const handleSetClassLevel = async(classLevel : string) => {
+        setSelectClassLevel(classLevel)
+        setRoomInClass(AllClass[classLevel])
+        setRoomIndex(-1)
+        setAllStudent([])
     }
     return (
         <div className=' space-y-6'>
@@ -37,14 +47,16 @@ const MainPage = () => {
                AllRoom={roomInClass}
                roomIndex={roomIndex}
                handleUpdateClassId={handleUpdateClassId}
-                setSelectLevel={setSelectClassLevel}
+               handleSetClassLevel={handleSetClassLevel}
                 selectClassLevel={selectClassLevel}
                />
             <SelectDay date={date} setDate={setDate}/>
             <StudentCheck 
             className={`${selectClassLevel}/${roomIndex+1}`}
             listStudentAttend={allStudent}
-            classId={classId}/>
+            classId={classId}
+            loading={loadingCheckForm}
+            fetchStudent={handleFetchStudent}/>
             <History/>
         </div>
     );
