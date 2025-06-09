@@ -31,7 +31,7 @@ const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDia
             StudentId: studentId as string,
         }
         const response = await AddStudent(studentInfo , classId);
-        console.log("Response from AddStudent API: ", response.studentId);
+        // console.log("Response from AddStudent API: ", response.studentId);
         // Fetch students again after insertion
         await fetchStudent(classId);
         onClose(); // Close the dialog after submission

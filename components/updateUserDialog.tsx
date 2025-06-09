@@ -29,11 +29,6 @@ const UpdateUserDialog = ({fetchStudent , student , onClose , classId}:UpdateUse
             StudentNumber:idNumber
         }
         await UpdateStudent(studentApi);
-        // Log the values
-        // console.log('เลขที่:', idNumber);
-        // console.log('ชื่อ-นามสกุล:', fullName + ' ' + lastName);
-        // Call API to update student information
-
         //Add loading
         fetchStudent(classId);
         onClose();

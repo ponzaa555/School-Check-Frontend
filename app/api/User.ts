@@ -85,7 +85,7 @@ export const SetClassIdToNoClass = async (studentsIds : string[]) =>
 {
     // console.log("Deleting students with IDs: ", studentsIds);
     if (studentsIds.length === 0) {
-        console.warn("No student IDs provided for deletion.");
+        // console.warn("No student IDs provided for deletion.");
         return;
     }
     console.log("stringify list studentsIds : ", JSON.stringify(studentsIds));
