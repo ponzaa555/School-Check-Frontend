@@ -18,7 +18,6 @@ Response Body :
 ]
 */
 export async function FetchStudentAttendInfo(classId : string) : Promise<Student[]> {
-    console.log("FetchStudentAttendInfo : " , classId)
     const res = await fetch(`${url}/api/Class/StudentAttendInfo/${classId}`,{
         method:"GET",
         headers:{
@@ -38,7 +37,6 @@ export async function FetchStudentAttendInfo(classId : string) : Promise<Student
             LastAttendId : student.attendInfo.lastAttendId
         }
     })) 
-    console.log("result :", result)
     return result
 }
 /*
@@ -56,7 +54,6 @@ request body :
 }
  */
 export async function PostStudentAttendInfo( classId : string , listAttendInfo : AttendInfo[] ) {
-    console.log(`PostStudentAttendInfo:{ classId : ${classId} , listAttendInfo : ${listAttendInfo}}`)
     const mapListAttendInfoToApi = listAttendInfo.map((attendInfo) => (
         {
             studentId : attendInfo.StudentId,
@@ -69,7 +66,6 @@ export async function PostStudentAttendInfo( classId : string , listAttendInfo :
         classId:classId,
         attendInfos:mapListAttendInfoToApi
     })
-    console.log({body})
     // fetch api
     const res = await fetch(`${url}/api/Class/CheckStudentInClass` , {
         method:"POST",

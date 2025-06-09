@@ -17,17 +17,6 @@ const ClassLevel  = ({
     handleSetClassLevel
 }:ClassLevelProps) =>
 {
-    /*
-    useEffect(() => {
-        async function fetchClassList() {
-            // check error at server
-            const res = await getClassList();
-            const data = await res.json();
-            setClassList(data);
-        }
-        fetchClassList();
-    },[]);
-    */
     return(
     <div className=" space-y-6">
         <div className=" bg-white p-6 w-full rounded-md drop-shadow-[4px_4px_6px_rgba(0,0,0,0.1)]">

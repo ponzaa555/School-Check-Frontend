@@ -11,15 +11,13 @@ type StudentCheckProps = {
     loading : boolean
     fetchStudent : (classId:string) =>  void
 }
-const StudentCheck = ({className , classId , listStudentAttend ,loading , fetchStudent}:StudentCheckProps) => {
-    const [loadingPage , setLoadingPage] = useState<boolean>(loading)
+const StudentCheck = ({className , classId , listStudentAttend ,loading , fetchStudent }:StudentCheckProps) => {
     const [allStudent,setAllStudent]  = useState<Student[]>(listStudentAttend)
     const [changeStatus, setChangeStatus] = useState<Record<string , AttendInfo>>({});
     const [submiteDisable , setSubmiteDisalbe] = useState<boolean>(false)
 
     useEffect(() => {
         setAllStudent(listStudentAttend)
-        console.log({listStudentAttend})
       }, [listStudentAttend ])
     const UpdateStudentStatus =(index : number , status:AttendanceStatus , attendInfo : AttendInfo)=> {
         setAllStudent((prev) => {
@@ -41,7 +39,6 @@ const StudentCheck = ({className , classId , listStudentAttend ,loading , fetchS
                 [attendInfo.StudentId]: {...attendInfo, AttendType: status}
             }));
         }
-        console.log({allStudent})
     }
     const UpdateAllStudentStatus = (status:AttendanceStatus) => {
         // Update all students status logic here
@@ -51,7 +48,7 @@ const StudentCheck = ({className , classId , listStudentAttend ,loading , fetchS
         setChangeStatus(() => {
             const updateStuend: Record<string, AttendInfo> = {};
           
-            AllStudent.forEach((student) => {
+            allStudent.forEach((student) => {
               updateStuend[student.AttendInfo.StudentId] = {
                 ...student.AttendInfo,
                 AttendType: status,
@@ -66,19 +63,17 @@ const StudentCheck = ({className , classId , listStudentAttend ,loading , fetchS
             return
         }
         setSubmiteDisalbe(true)
-        setLoadingPage(true)
         // call post Api
         await PostStudentAttendInfo(classId , Object.values(changeStatus))
         setChangeStatus({});
         await fetchStudent(classId);
         setSubmiteDisalbe(false)
-        setLoadingPage(false)
         //fetch student for update lastattendId
     }
     return (
         <>
 
-        {loadingPage ? (
+        {loading ? (
             <div className='bg-white p-6 w-full rounded-md drop-shadow-[4px_4px_6px_rgba(0,0,0,0.1)]'>
                     <p className=' text-xl text-black font-bold  items-center '>{className}</p>
                 <div className=' min-h-[100px] flex items-center justify-center'>

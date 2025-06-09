@@ -26,22 +26,22 @@ const ManageStudnetDialogContent = () => {
     const fetchStudent = async(classId : string) => {
         const newStudents = await FetchStudents(classId);
         setStudents(newStudents.sort((a,b) => a.StudentNumber-b.StudentNumber));
-        console.log("Fetching students for class ID: ", newStudents);
+        // console.log("Fetching students for class ID: ", newStudents);
     }
     const handleDeleteStudent = (index:number) => {
         setStudents((prev) => prev.filter((_, i) => i !== index));
-        console.log("Deleted student at index: ", index);
+        // console.log("Deleted student at index: ", index);
     }
     const handleAddStudentToDeleteList = (student: StudentInfo) => {
         setDeleteStudent((prev) => [...prev, student]);
     }
     const UndoDeleteStudent = (index: number) => {
         setDeleteStudent((prev) => prev.filter((_, i) => i !== index));
-        console.log("Undo delete student at index: ", index);
+        // console.log("Undo delete student at index: ", index);
         setStudents((prev) => [...prev, deleteStudent[index]].sort((a, b) => a.StudentNumber - b.StudentNumber));
     }
     const ChangeSelectNewClassRoom = async(classId :string , index : number) => {
-        console.log("Changed class ID to: ", classId);
+        // console.log("Changed class ID to: ", classId);
         setClassId(classId);
         setSelectedIndex(index);
         await fetchStudent(classId);

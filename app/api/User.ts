@@ -15,7 +15,7 @@ const url = BaseURL;
 }
 */
 export const AddStudent = async(student : StudentInfo , classId :string) => {
-    console.log("Adding student: ", student, " to class ID: ", classId);
+    // console.log("Adding student: ", student, " to class ID: ", classId);
     const response = await fetch(`${url}/api/Student/AddStudent`, {
         method: "POST",
         headers: {
@@ -46,7 +46,7 @@ export const AddStudent = async(student : StudentInfo , classId :string) => {
 ]
 */
 export const FetchStudents = async(classId: string):Promise<StudentInfo[]> => {
-    console.log("Fetching students for class ID: ", classId);
+    // console.log("Fetching students for class ID: ", classId);
     const res = await fetch(`${url}/api/Student/GetStudentInClass/${classId}`,{
         method:"GET",
         headers: {
@@ -57,7 +57,7 @@ export const FetchStudents = async(classId: string):Promise<StudentInfo[]> => {
         throw new Error("Failed to fetch students");
     }
     const data = await res.json();
-    console.log("Fetched students: ", data);
+    // console.log("Fetched students: ", data);
     // map data to StudentInfo type
     const students: StudentInfo[] = data.map((student: any) => ({
         StudentId: student.studentId,
@@ -83,7 +83,7 @@ Request body example:
 
 export const SetClassIdToNoClass = async (studentsIds : string[]) => 
 {
-    console.log("Deleting students with IDs: ", studentsIds);
+    // console.log("Deleting students with IDs: ", studentsIds);
     if (studentsIds.length === 0) {
         console.warn("No student IDs provided for deletion.");
         return;
@@ -96,7 +96,7 @@ export const SetClassIdToNoClass = async (studentsIds : string[]) =>
         },
         body: JSON.stringify(studentsIds)
    })
-   console.log("Response from SetClassIdToNoClass: ", res);
+//    console.log("Response from SetClassIdToNoClass: ", res);
     if (!res.ok){
         throw new Error("Failed to delete students");
     }
@@ -114,7 +114,7 @@ Response body example:
 {}
 */
 export async function UpdateStudent(student : StudentInfo) {
-    console.log("UpdateStudent Api ");
+    // console.log("UpdateStudent Api ");
     const res = await fetch(`${url}/api/Student/UpdateStudent`, {
         method:"POST",
         headers: {

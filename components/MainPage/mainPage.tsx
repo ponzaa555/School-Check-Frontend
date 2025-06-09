@@ -52,7 +52,7 @@ const MainPage = () => {
                />
             <SelectDay date={date} setDate={setDate}/>
             <StudentCheck 
-            className={`${selectClassLevel}/${roomIndex+1}`}
+            className={roomIndex === -1 ?  `${selectClassLevel}`:`${selectClassLevel}/${roomIndex+1}`}
             listStudentAttend={allStudent}
             classId={classId}
             loading={loadingCheckForm}
