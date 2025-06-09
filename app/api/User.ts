@@ -45,6 +45,12 @@ export const AddStudent = async(student : StudentInfo , classId :string) => {
 },
 ]
 */
+interface FetchStudentstApi {
+    studentId:string;
+    firstName:string;
+    lastName:string;
+    studentNumber:number
+}
 export const FetchStudents = async(classId: string):Promise<StudentInfo[]> => {
     // console.log("Fetching students for class ID: ", classId);
     const res = await fetch(`${url}/api/Student/GetStudentInClass/${classId}`,{
@@ -59,7 +65,7 @@ export const FetchStudents = async(classId: string):Promise<StudentInfo[]> => {
     const data = await res.json();
     // console.log("Fetched students: ", data);
     // map data to StudentInfo type
-    const students: StudentInfo[] = data.map((student: any) => ({
+    const students: StudentInfo[] = data.map((student:FetchStudentstApi) => ({
         StudentId: student.studentId,
         StudnetFirstName: student.firstName,
         StudnetLastName: student.lastName,

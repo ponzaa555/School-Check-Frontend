@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ClassLevel from './ClassLevel/classLevel';
 import SelectDay from './DayTab/selectDay';
 import History from './history';

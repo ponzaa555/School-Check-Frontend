@@ -1,8 +1,8 @@
 "use client"
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StudentComponent from './studentComponent';
-import { AllStudent, AttendanceStatus, AttendInfo, Student } from '@/schema/user';
-import { FetchStudentAttendInfo, PostStudentAttendInfo } from '@/app/api/mainPage/studentCheck';
+import {  AttendanceStatus, AttendInfo, Student } from '@/schema/user';
+import {  PostStudentAttendInfo } from '@/app/api/mainPage/studentCheck';
 
 type StudentCheckProps = {
     className : string;

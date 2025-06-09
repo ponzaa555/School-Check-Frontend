@@ -1,5 +1,5 @@
 import { UpdateStudent } from '@/app/api/User';
-import { Student, StudentInfo } from '@/schema/user';
+import { StudentInfo } from '@/schema/user';
 import React from 'react';
 
 type UpdateUserDialogProps = {

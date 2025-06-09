@@ -4,11 +4,9 @@ import ExportPdf from "./exportPdf";
 import ManageNameButton from "./manageNameButton";
 import PrintDoc from "./printDoc";
 
-interface NavBarProps {
 
-}
 
-const NavBar: React.FC<NavBarProps> = () => {
+const NavBar = () => {
     return (
         <div className=" flex sticky top-0 w-full items-center justify-between py-5 bg-blue-600 
          shawd mt-10 rounded-t-md z-[50]">
@@ -19,7 +17,9 @@ const NavBar: React.FC<NavBarProps> = () => {
                 </div>
                 {/* button */}
                 <div className=" flex space-x-2">
-                    <MyDialog trigger={<ManageNameButton/>} children={<ManageStudnetDialogContent/>} halfScreen = {true}/>
+                    <MyDialog trigger={<ManageNameButton/>}  halfScreen = {true}>
+                        <ManageStudnetDialogContent />
+                    </MyDialog>
                     <ExportPdf/>
                     <PrintDoc/>
                 </div>

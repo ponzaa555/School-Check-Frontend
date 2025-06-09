@@ -1,5 +1,5 @@
 import { AttendanceStatus, AttendInfo, Student } from '@/schema/user';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 type StudentProps = {
     index : number

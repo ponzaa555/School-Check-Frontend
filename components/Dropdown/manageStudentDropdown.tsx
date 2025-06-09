@@ -1,6 +1,6 @@
 "use client"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import React, { useState } from 'react';
+import React from 'react';
 import { Check } from "lucide-react";
 import { AllClass } from '@/schema/class';
 
@@ -30,8 +30,8 @@ const ManageStudentDropdown = ({
                 <DropdownMenuItem
                 key={index}
                 onSelect={() => {
-                    setSelectedClass(value),
-                    setRoom(AllClass[value])
+                    setSelectedClass(value);
+                    setRoom(AllClass[value]);
                     }
                 }
                 className="flex items-center gap-2 px-2 py-1 rounded hover:bg-blue-500 hover:text-white"

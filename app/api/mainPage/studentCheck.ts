@@ -17,6 +17,15 @@ Response Body :
     }
 ]
 */
+interface FetchStudentAttendInfoApi {
+    studentName: string
+    attendInfo:{
+        studentId:string;
+        attendType:string;
+        note:string;
+        lastAttendId:string;
+    }
+}
 export async function FetchStudentAttendInfo(classId : string) : Promise<Student[]> {
     const res = await fetch(`${url}/api/Class/StudentAttendInfo/${classId}`,{
         method:"GET",
@@ -28,7 +37,7 @@ export async function FetchStudentAttendInfo(classId : string) : Promise<Student
         throw new Error("Failed to fetch students");
     }
     const data = await res.json()
-    const result :Student[] = data.map((student : any) => ({
+    const result :Student[] = data.map((student : FetchStudentAttendInfoApi) => ({
         StudnetName:student.studentName,
         AttendInfo:{
             StudentId: student.attendInfo.studentId,

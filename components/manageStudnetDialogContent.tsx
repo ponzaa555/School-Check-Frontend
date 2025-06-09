@@ -1,6 +1,5 @@
 "use client"
-import { AllClass, AllClassKeys, DefultStudent, StudentInClass } from '@/schema/class';
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuCheckboxItemProps, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { AllClass, AllClassKeys } from '@/schema/class';
 import React, { useEffect, useState } from 'react';
 import ManageStudentDropdown from './Dropdown/manageStudentDropdown';
 import ManageStudentRoomDropdown from './Dropdown/manageStudentRoomDropdown';
@@ -12,7 +11,7 @@ import { FetchStudents, SetClassIdToNoClass } from '@/app/api/User';
 
 
 
-type Checked = DropdownMenuCheckboxItemProps["checked"]
+
 
 const ManageStudnetDialogContent = () => {
     const [selectedClass, setSelectedClass] = useState<string>("ประถม1");
@@ -20,7 +19,6 @@ const ManageStudnetDialogContent = () => {
     const [rooms , setRooms] = useState<string[]>(AllClass[selectedClass]);
     const [classId , setClassId] = useState<string>(AllClass[selectedClass][selectedIndex]);
     const [students, setStudents] = useState<StudentInfo[]>([]);
-    const [openDialog, setOpenDialog] = useState<boolean>(false);
     const [deleteStudent, setDeleteStudent] = useState<StudentInfo[]>([]);
 
     const fetchStudent = async(classId : string) => {

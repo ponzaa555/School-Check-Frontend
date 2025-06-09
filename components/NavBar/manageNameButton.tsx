@@ -1,8 +1,6 @@
 import React from 'react';
 
-interface ManageNameButtonProps {
 
-}
 
 const ManageNameButton = () => {
     return (

@@ -1,6 +1,6 @@
 "use client"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import React, { JSX, ReactNode, useState } from "react";
+import React, {ReactNode, useState } from "react";
 
 type MyDialogProps = {
   trigger: ReactNode,

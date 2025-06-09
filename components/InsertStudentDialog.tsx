@@ -30,7 +30,7 @@ const InsertStudentDialog = ({onClose , classId , fetchStudent}:InsertStudentDia
             StudnetLastName: lastName as string,
             StudentId: studentId as string,
         }
-        const response = await AddStudent(studentInfo , classId);
+        await AddStudent(studentInfo , classId);
         // console.log("Response from AddStudent API: ", response.studentId);
         // Fetch students again after insertion
         await fetchStudent(classId);
