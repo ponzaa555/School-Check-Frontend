@@ -8,6 +8,7 @@ import MyDialog from './myDialog';
 import UpdateUserDialog from './updateUserDialog';
 import InsertStudentDialog from './InsertStudentDialog';
 import { FetchStudents, SetClassIdToNoClass } from '@/app/api/User';
+import LoadingComponent from './MainPage/loading';
 
 
 
@@ -49,6 +50,7 @@ const ManageStudnetDialogContent = () => {
         await fetchStudent(classId);
     }
     const handleDeleteStudentApi = async() => {
+        setLoading(true)
         // Call API to delete students
         if(deleteStudent.length === 0) {
             return;
@@ -58,6 +60,7 @@ const ManageStudnetDialogContent = () => {
         // Fetch updated student list
         await fetchStudent(classId);
         setDeleteStudent([]);
+        setLoading(false)
     }
     useEffect(() => {
         setStudents([]);
@@ -72,6 +75,7 @@ const ManageStudnetDialogContent = () => {
                 listobject={AllClassKeys} 
                 setSelectedClass={setSelectedClass} 
                 selectedClass={selectedClass} 
+                setSelectedRoom={setSelectedIndex}
                 setRoom={setRooms}
                 />
             </div>
@@ -103,8 +107,8 @@ const ManageStudnetDialogContent = () => {
                     
                 </div>
                 {loading ? (
-                    <div className=' flex items-center justify-center w-full'>
-                        <p> Loading ...</p>
+                    <div className="  flex items-center justify-center ">
+                        <LoadingComponent/>
                     </div>
                 ):(
                     <div className=" rounded-md shadow border border-gray-300 max-h-[200px] overflow-auto ">
@@ -158,7 +162,7 @@ const ManageStudnetDialogContent = () => {
             
             {/* ราชื่อนนักเรียนที่ลบ */}
             {
-                deleteStudent.length > 0 && (
+                (deleteStudent.length > 0 && !loading )&& (
                     <div className='w-full space-y-3'>
                         <div className=' flex items-center justify-between'>
                             <p>รายชื่อนักเรียนรอลบ</p>

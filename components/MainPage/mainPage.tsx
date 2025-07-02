@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import ClassLevel from './ClassLevel/classLevel';
 import SelectDay from './DayTab/selectDay';
 import History from './history';
@@ -8,6 +8,8 @@ import { AllClass} from '@/schema/class';
 import { AllClassKeys} from '@/schema/class';
 import { Student } from '@/schema/user';
 import { FetchStudentAttendInfo } from '@/app/api/mainPage/studentCheck';
+import LoadingComponent from './loading';
+
 
 const MainPage = () => {
     const [selectClassLevel , setSelectClassLevel] = useState<string>("ประถม1");
@@ -51,12 +53,12 @@ const MainPage = () => {
                 selectClassLevel={selectClassLevel}
                />
             <SelectDay date={date} setDate={setDate}/>
-            <StudentCheck 
-            className={roomIndex === -1 ?  `${selectClassLevel}`:`${selectClassLevel}/${roomIndex+1}`}
-            listStudentAttend={allStudent}
-            classId={classId}
-            loading={loadingCheckForm}
-            fetchStudent={handleFetchStudent}/>
+                <StudentCheck 
+                className={roomIndex === -1 ?  `${selectClassLevel}`:`${selectClassLevel}/${roomIndex+1}`}
+                listStudentAttend={allStudent}
+                classId={classId}
+                loading={loadingCheckForm}
+                fetchStudent={handleFetchStudent}/>
             <History/>
         </div>
     );

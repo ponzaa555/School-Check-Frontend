@@ -7,6 +7,7 @@ import { AllClass } from '@/schema/class';
 type ManageStudentDropdownProps = {
     selectedClass?: string ;
     setSelectedClass: (preValue:string ) => void ;
+    setSelectedRoom: (classIndex : number) => void;
     listobject : string[];
     setRoom: (preValue:string[]) => void;
 }
@@ -14,7 +15,8 @@ const ManageStudentDropdown = ({
     listobject , 
     setSelectedClass , 
     selectedClass,
-    setRoom
+    setRoom,
+    setSelectedRoom
 }:ManageStudentDropdownProps) => {
     
     return (
@@ -32,6 +34,7 @@ const ManageStudentDropdown = ({
                 onSelect={() => {
                     setSelectedClass(value);
                     setRoom(AllClass[value]);
+                    setSelectedRoom(-1);
                     }
                 }
                 className="flex items-center gap-2 px-2 py-1 rounded hover:bg-blue-500 hover:text-white"

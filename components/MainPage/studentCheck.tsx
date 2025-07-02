@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import StudentComponent from './studentComponent';
 import {  AttendanceStatus, AttendInfo, Student } from '@/schema/user';
 import {  PostStudentAttendInfo } from '@/app/api/mainPage/studentCheck';
+import LoadingComponent from './loading';
 
 type StudentCheckProps = {
     className : string;
@@ -62,6 +63,7 @@ const StudentCheck = ({className , classId , listStudentAttend ,loading , fetchS
         {
             return
         }
+        
         setSubmiteDisalbe(true)
         // call post Api
         await PostStudentAttendInfo(classId , Object.values(changeStatus))
@@ -74,11 +76,8 @@ const StudentCheck = ({className , classId , listStudentAttend ,loading , fetchS
         <>
 
         {loading ? (
-            <div className='bg-white p-6 w-full rounded-md drop-shadow-[4px_4px_6px_rgba(0,0,0,0.1)]'>
-                    <p className=' text-xl text-black font-bold  items-center '>{className}</p>
-                <div className=' min-h-[100px] flex items-center justify-center'>
-                    Loading....
-                </div>
+            <div className='bg-white p-6 w-full rounded-md drop-shadow-[4px_4px_6px_rgba(0,0,0,0.1)] items-center justify-center flex'>
+                <LoadingComponent/>
             </div>
         ): (
                 <div className='bg-white p-6 w-full rounded-md drop-shadow-[4px_4px_6px_rgba(0,0,0,0.1)]'>
